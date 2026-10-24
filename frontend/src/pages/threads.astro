@@ -5,7 +5,7 @@ import ThreadKanban from "../components/bible/ThreadKanban";
 const story = Astro.url.searchParams.get('story') ?? '';
 ---
 <BaseLayout title="Threads">
-<h1 class="display-f mb-4 text-2xl text-stone-100">Plot threads</h1>
+<h1 class="page-title">Plot threads</h1>
 <form id="pick-story" class="mb-4 flex max-w-xl gap-2">
   <input id="ps-id" class="border border-charcoal-line bg-charcoal px-2 py-1 text-stone-100" placeholder="Story id" inputmode="numeric" value={story} />
   <button class="border border-charcoal-line px-3 py-1 text-sm text-stone-200 hover:border-brand hover:text-brand" type="submit">Load</button>
@@ -13,11 +13,12 @@ const story = Astro.url.searchParams.get('story') ?? '';
 {!story && <p class="text-sm text-stone-400">Enter a story id to see active, dormant, and resolved threads.</p>}
 {story && <ThreadKanban client:visible storyId={story} />}
 <script>
+  const BASE = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
   document.getElementById('pick-story')?.addEventListener('submit', (ev) => {
     ev.preventDefault();
     const input = document.getElementById('ps-id') as HTMLInputElement;
     const id = input.value.trim();
-    if (id) window.location.href = `/threads?story=${encodeURIComponent(id)}`;
+    if (id) window.location.href = `${BASE}/threads?story=${encodeURIComponent(id)}`;
   });
 </script>
 </BaseLayout>

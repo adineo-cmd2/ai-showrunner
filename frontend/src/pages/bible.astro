@@ -8,19 +8,21 @@ const story = Astro.url.searchParams.get('story') ?? '';
 const tab = Astro.url.searchParams.get('tab') ?? 'characters';
 const tabs = ['characters', 'locations', 'timeline', 'threads', 'rules'] as const;
 const active = (tabs as readonly string[]).includes(tab) ? tab : 'characters';
+
+const base = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
 ---
 <BaseLayout title="Story bible">
-<h1 class="display-f mb-4 text-2xl text-stone-100">Story bible</h1>
+<h1 class="page-title">Story bible</h1>
 <form id="pick-story" class="mb-4 flex max-w-xl gap-2">
   <input id="ps-id" class="border border-charcoal-line bg-charcoal px-2 py-1 text-stone-100" placeholder="Story id" inputmode="numeric" value={story} />
   <button class="border border-charcoal-line px-3 py-1 text-sm text-stone-200 hover:border-brand hover:text-brand" type="submit">Load</button>
 </form>
-{!story && <p class="text-sm text-stone-400">Enter a story id to open its bible, or <a class="underline text-brand" href="/">create a new series</a>.</p>}
+{!story && <p class="text-sm text-stone-400">Enter a story id to open its bible, or <a class="underline text-brand" href={`${base}/`}>create a new series</a>.</p>}
 {story && (
   <nav class="mb-4 flex flex-wrap gap-2">
     {tabs.map((t) => (
       <a
-        href={`/bible?story=${encodeURIComponent(story)}&tab=${t}`}
+        href={`${base}/bible?story=${encodeURIComponent(story)}&tab=${t}`}
         class={`mono-n border px-2 py-1 text-xs ${t === active ? 'border-brand text-brand' : 'border-charcoal-line text-stone-400'}`}
       >
         {t.toUpperCase()}
@@ -50,11 +52,12 @@ const active = (tabs as readonly string[]).includes(tab) ? tab : 'characters';
   </>
 )}
 <script>
+  const BASE = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
   document.getElementById('pick-story')?.addEventListener('submit', (ev) => {
     ev.preventDefault();
     const input = document.getElementById('ps-id') as HTMLInputElement;
     const id = input.value.trim();
-    if (id) window.location.href = `/bible?story=${encodeURIComponent(id)}`;
+    if (id) window.location.href = `${BASE}/bible?story=${encodeURIComponent(id)}`;
   });
 </script>
 <script define:vars={{ story, active }}>

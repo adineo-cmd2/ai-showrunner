@@ -1,45 +1,102 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+
+const base = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
 ---
-<BaseLayout title="AI Showrunner — writers' room">
-<h1 class="display-f text-4xl text-stone-100">The writers&rsquo; room never forgets.</h1>
-<p class="mt-4 max-w-2xl text-stone-300">Keep a living story bible — characters, locations, timeline, threads, world rules. Submit an episode and the showrunner extracts new entities, checks continuity, and flags Chekhov guns. Nothing enters canon until you confirm it.</p>
-<div class="mt-6 grid gap-3 md:grid-cols-3">
-<div class="border border-charcoal-line bg-charcoal p-4"><p class="font-bold text-stone-100">1. Bible the world</p><p class="text-sm text-stone-400">Characters, places, timeline, threads, rules.</p></div>
-<div class="border border-charcoal-line bg-charcoal p-4"><p class="font-bold text-stone-100">2. Write the episode</p><p class="text-sm text-stone-400">Live consistency warnings as you type.</p></div>
-<div class="border border-charcoal-line bg-charcoal p-4"><p class="font-bold text-stone-100">3. Confirm canon</p><p class="text-sm text-stone-400">Pending changes gate every bible write.</p></div>
+<BaseLayout title="AI Showrunner — the writers’ room that never forgets" description="Keep a living story bible — characters, locations, timeline, threads, world rules. Submit an episode and the showrunner extracts new entities, checks continuity, and flags Chekhov guns.">
+<section class="hero">
+  <span class="hero-badge">living story bible · canon gating</span>
+  <h1 class="display-1">The writers&rsquo; room<br/><span class="grad-text">never forgets.</span></h1>
+  <p class="lead">Keep a living story bible — characters, locations, timeline, threads, world rules. Submit an episode and the showrunner extracts new entities, checks continuity, and flags Chekhov guns. Nothing enters canon until you confirm it.</p>
+  <div class="hero-ctas">
+<a href={'#new-series'} class="btn btn-accent btn-lg">Start a new series</a>
+<a href={'#reopen-series'} class="btn btn-ghost btn-lg">Open a series by id</a>
+  </div>
+  <div class="hero-meta">
+<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 4v16M17 4v16M2 9h5M2 15h5M17 9h5M17 15h5"/></svg>Bible · editor · continuity · threads</span>
+<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Canon changes gated by you</span>
+<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>Everything extractable, nothing silent</span>
+  </div>
+</section>
+
+<section class="section">
+  <div class="grid-3">
+<article class="card card-hover p-5 reveal">
+  <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></div>
+  <h3 class="text-[1.02rem] font-semibold" style="letter-spacing:-0.01em">Story bible</h3>
+  <p class="mt-2 text-sm leading-relaxed" style="color: var(--ink-soft)">Characters, locations, timeline, threads and world rules — one living document per series.</p>
+</article>
+<article class="card card-hover p-5 reveal">
+  <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 4v16M17 4v16M2 9h5M2 15h5M17 9h5M17 15h5"/></svg></div>
+  <h3 class="text-[1.02rem] font-semibold" style="letter-spacing:-0.01em">Episode editor</h3>
+  <p class="mt-2 text-sm leading-relaxed" style="color: var(--ink-soft)">Write with live consistency warnings as you type.</p>
+</article>
+<article class="card card-hover p-5 reveal">
+  <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></div>
+  <h3 class="text-[1.02rem] font-semibold" style="letter-spacing:-0.01em">Continuity board</h3>
+  <p class="mt-2 text-sm leading-relaxed" style="color: var(--ink-soft)">Broken rules, contradictions and impossible geography, flagged per scene.</p>
+</article>
+<article class="card card-hover p-5 reveal">
+  <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+  <h3 class="text-[1.02rem] font-semibold" style="letter-spacing:-0.01em">Thread kanban</h3>
+  <p class="mt-2 text-sm leading-relaxed" style="color: var(--ink-soft)">Every open plot thread on a board — plant, pay off, or cut.</p>
+</article>
+<article class="card card-hover p-5 reveal">
+  <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg></div>
+  <h3 class="text-[1.02rem] font-semibold" style="letter-spacing:-0.01em">Entity extraction</h3>
+  <p class="mt-2 text-sm leading-relaxed" style="color: var(--ink-soft)">New characters and places are proposed from your draft, never silently added.</p>
+</article>
+<article class="card card-hover p-5 reveal">
+  <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+  <h3 class="text-[1.02rem] font-semibold" style="letter-spacing:-0.01em">Canon gating</h3>
+  <p class="mt-2 text-sm leading-relaxed" style="color: var(--ink-soft)">Nothing enters the bible until the author approves it.</p>
+</article>
+  </div>
+</section>
+
+<section class="section reveal">
+  <div class="section-head">
+    <p class="eyebrow">Showcase</p>
+    <h2 class="section-title">Start or reopen a series</h2>
+    <p class="lead">Create a bible here, or jump back into one by its id — the forms below are live.</p>
+  </div>
+
+<div id="new-series" class="grid gap-4 lg:grid-cols-2" style="align-items: start">
+  <form id="new-bible" class="card p-5 reveal">
+    <h3 class="section-title mb-1">Start a new series</h3>
+    <p class="mb-4 text-sm" style="color: var(--ink-soft)">Title, genre, setting, world rules — one per line.</p>
+    <label class="block"><span class="label-x">Title</span>
+      <input id="nb-title" class="input" placeholder="The Salt Meridian" required />
+    </label>
+    <div class="mt-3 grid gap-3 sm:grid-cols-2">
+      <label class="block"><span class="label-x">Genre</span>
+        <input id="nb-genre" class="input" placeholder="mystery" />
+      </label>
+      <label class="block"><span class="label-x">Setting</span>
+        <input id="nb-setting" class="input" placeholder="a tidally-locked port city" />
+      </label>
+    </div>
+    <label class="mt-3 block"><span class="label-x">World rules (one per line)</span>
+      <textarea id="nb-rules" class="textarea mono" placeholder="No faster-than-light travel&#10;The dead stay dead"></textarea>
+    </label>
+    <div class="mt-4 flex items-center gap-3">
+      <button class="btn btn-accent" type="submit">Create bible</button>
+      <p id="nb-msg" class="text-sm" style="color: var(--ink-soft)"></p>
+    </div>
+  </form>
+  <form id="open-bible" class="card p-5 reveal" style="align-self: start">
+    <h3 class="section-title mb-1">Reopen a series</h3>
+    <p class="mb-4 text-sm" style="color: var(--ink-soft)">Got a story id from a previous session?</p>
+    <div class="flex gap-2">
+      <input id="ob-id" class="input" placeholder="Story id" inputmode="numeric" />
+      <button class="btn btn-ghost" type="submit">Open bible</button>
+    </div>
+  </form>
 </div>
-
-<h2 class="display-f mt-8 text-2xl text-stone-100">Start a new series</h2>
-<form id="new-bible" class="mt-3 grid max-w-2xl gap-3 border border-charcoal-line bg-charcoal p-4">
-  <label class="block text-sm"><span class="mono-n text-xs text-stone-400">Title</span>
-    <input id="nb-title" class="mt-1 w-full border border-charcoal-line bg-ink px-2 py-1 text-stone-100" placeholder="The Salt Meridian" required />
-  </label>
-  <div class="grid gap-3 md:grid-cols-2">
-    <label class="block text-sm"><span class="mono-n text-xs text-stone-400">Genre</span>
-      <input id="nb-genre" class="mt-1 w-full border border-charcoal-line bg-ink px-2 py-1 text-stone-100" placeholder="mystery" />
-    </label>
-    <label class="block text-sm"><span class="mono-n text-xs text-stone-400">Setting</span>
-      <input id="nb-setting" class="mt-1 w-full border border-charcoal-line bg-ink px-2 py-1 text-stone-100" placeholder="a tidally-locked port city" />
-    </label>
-  </div>
-  <label class="block text-sm"><span class="mono-n text-xs text-stone-400">World rules (one per line)</span>
-    <textarea id="nb-rules" class="mono-n mt-1 min-h-[80px] w-full border border-charcoal-line bg-ink p-2 text-sm text-stone-100" placeholder="No faster-than-light travel&#10;The dead stay dead"></textarea>
-  </label>
-  <div>
-    <button class="border border-brand px-4 py-2 text-sm font-bold text-brand hover:bg-brand hover:text-ink" type="submit">Create bible</button>
-  </div>
-  <p id="nb-msg" class="text-sm text-stone-400"></p>
-</form>
-
-<h2 class="display-f mt-8 text-2xl text-stone-100">Reopen a series</h2>
-<form id="open-bible" class="mt-3 flex max-w-2xl gap-2">
-  <input id="ob-id" class="border border-charcoal-line bg-charcoal px-2 py-1 text-stone-100" placeholder="Story id" inputmode="numeric" />
-  <button class="border border-charcoal-line px-3 py-1 text-sm text-stone-200 hover:border-brand hover:text-brand" type="submit">Open bible</button>
-</form>
-
 <script>
   import { apiPost } from '../lib/apiClient';
+  const BASE = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
   const msg = document.getElementById('nb-msg')!;
   document.getElementById('new-bible')!.addEventListener('submit', async (ev) => {
     ev.preventDefault();
@@ -52,7 +109,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     if (!title) { msg.textContent = 'Title is required.'; return; }
     try {
       const r = (await apiPost('/api/story/bible', { title, genre, setting, rules })) as { story_id: number };
-      window.location.href = `/bible?story=${r.story_id}`;
+      window.location.href = `${BASE}/bible?story=${r.story_id}`;
     } catch (e) {
       msg.textContent = e instanceof Error ? e.message : 'Create failed.';
     }
@@ -60,7 +117,49 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   document.getElementById('open-bible')!.addEventListener('submit', (ev) => {
     ev.preventDefault();
     const id = (document.getElementById('ob-id') as HTMLInputElement).value.trim();
-    if (id) window.location.href = `/bible?story=${encodeURIComponent(id)}`;
+    if (id) window.location.href = `${BASE}/bible?story=${encodeURIComponent(id)}`;
   });
 </script>
+
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">How it works</p>
+    <h2 class="section-title">Three steps, no fluff</h2>
+  </div>
+  <div class="grid-3">
+<div class="step reveal">
+  <div class="step-num">01</div>
+  <h3 class="mt-2 text-[1rem] font-semibold">Bible the world</h3>
+  <p class="mt-1.5 text-sm leading-relaxed" style="color: var(--ink-soft)">Characters, places, timeline, threads, rules.</p>
+</div>
+<div class="step reveal">
+  <div class="step-num">02</div>
+  <h3 class="mt-2 text-[1rem] font-semibold">Write the episode</h3>
+  <p class="mt-1.5 text-sm leading-relaxed" style="color: var(--ink-soft)">Live consistency warnings as you type.</p>
+</div>
+<div class="step reveal">
+  <div class="step-num">03</div>
+  <h3 class="mt-2 text-[1rem] font-semibold">Confirm canon</h3>
+  <p class="mt-1.5 text-sm leading-relaxed" style="color: var(--ink-soft)">Pending changes gate every bible write.</p>
+</div>
+  </div>
+</section>
+
+<section class="section reveal">
+  <div class="note-band">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    <p>You own your story. Episode analysis only proposes bible changes — nothing enters canon until you confirm it.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="cta-band reveal">
+    <h2 class="section-title">Roll credits on inconsistency.</h2>
+    <p class="lead" style="margin: 0.8rem auto 1.8rem">Bible the world once; let the showrunner keep it straight.</p>
+    <a href={'#new-series'} class="btn btn-accent btn-lg">Create a bible</a>
+  </div>
+</section>
+
 </BaseLayout>

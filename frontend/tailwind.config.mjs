@@ -4,17 +4,34 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: '#0c0a09',
-        charcoal: {
-          DEFAULT: '#1c1917',
-          soft: '#292524',
-          line: '#44403c',
+        "ink": "#0b0908",
+        "charcoal": {
+                "DEFAULT": "#191512",
+                "soft": "#292524",
+                "line": "#44403c"
         },
-        brand: {
-          DEFAULT: '#f59e0b',
-          dim: '#b45309',
-        },
-      },
+        "brand": {
+                "DEFAULT": "#f59e0b",
+                "dim": "#b45309"
+        }
+},
+      fontFamily: {
+        "display": [
+                "'Archivo'",
+                "system-ui",
+                "sans-serif"
+        ],
+        "body": [
+                "'Inter'",
+                "system-ui",
+                "sans-serif"
+        ],
+        "mono": [
+                "'JetBrains Mono'",
+                "ui-monospace",
+                "monospace"
+        ]
+},
     },
   },
   plugins: [],

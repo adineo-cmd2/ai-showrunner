@@ -5,6 +5,6 @@ import EpisodeEditor from "../components/editor/EpisodeEditor";
 const story = Astro.url.searchParams.get('story') ?? '';
 ---
 <BaseLayout title="Episode editor">
-<h1 class="display-f mb-4 text-2xl text-stone-100">Episode editor</h1>
+<h1 class="page-title">Episode editor</h1>
 <EpisodeEditor client:load initialStoryId={story} />
 </BaseLayout>
