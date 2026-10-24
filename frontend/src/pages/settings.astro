@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Settings">
+<h1 class="display-f mb-4 text-2xl text-stone-100">Settings</h1>
+<div class="max-w-xl border border-charcoal-line bg-charcoal p-4">
+  <label class="block text-sm font-bold text-stone-200" for="sid">Delete a story by id</label>
+  <div class="mt-1 flex gap-2">
+    <input id="sid" class="border border-charcoal-line bg-ink px-2 py-1 text-stone-100" placeholder="Story id" inputmode="numeric" />
+    <button id="del" class="border border-red-700 px-3 py-1 text-sm text-red-400">Delete</button>
+  </div>
+  <p id="msg" class="mt-2 text-sm text-stone-400"></p>
+</div>
+<script>
+  import { apiDelete } from '../lib/apiClient';
+  const msg = document.getElementById("msg")!;
+  document.getElementById("del")!.onclick = async () => {
+    const sid = (document.getElementById("sid") as HTMLInputElement).value.trim();
+    if (!sid) { msg.textContent = "Enter a story id."; return; }
+    if (!confirm(`Delete story ${sid}? This removes its bible, episodes, and issues.`)) return;
+    try {
+      await apiDelete(`/api/story/${sid}`);
+      msg.textContent = `Story ${sid} deleted.`;
+    } catch (e) {
+      msg.textContent = e instanceof Error ? e.message : 'Delete failed.';
+    }
+  };
+</script>
+</BaseLayout>

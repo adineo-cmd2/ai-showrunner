@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="AI Showrunner — writers' room">
+<h1 class="display-f text-4xl text-stone-100">The writers&rsquo; room never forgets.</h1>
+<p class="mt-4 max-w-2xl text-stone-300">Keep a living story bible — characters, locations, timeline, threads, world rules. Submit an episode and the showrunner extracts new entities, checks continuity, and flags Chekhov guns. Nothing enters canon until you confirm it.</p>
+<div class="mt-6 grid gap-3 md:grid-cols-3">
+<div class="border border-charcoal-line bg-charcoal p-4"><p class="font-bold text-stone-100">1. Bible the world</p><p class="text-sm text-stone-400">Characters, places, timeline, threads, rules.</p></div>
+<div class="border border-charcoal-line bg-charcoal p-4"><p class="font-bold text-stone-100">2. Write the episode</p><p class="text-sm text-stone-400">Live consistency warnings as you type.</p></div>
+<div class="border border-charcoal-line bg-charcoal p-4"><p class="font-bold text-stone-100">3. Confirm canon</p><p class="text-sm text-stone-400">Pending changes gate every bible write.</p></div>
+</div>
+
+<h2 class="display-f mt-8 text-2xl text-stone-100">Start a new series</h2>
+<form id="new-bible" class="mt-3 grid max-w-2xl gap-3 border border-charcoal-line bg-charcoal p-4">
+  <label class="block text-sm"><span class="mono-n text-xs text-stone-400">Title</span>
+    <input id="nb-title" class="mt-1 w-full border border-charcoal-line bg-ink px-2 py-1 text-stone-100" placeholder="The Salt Meridian" required />
+  </label>
+  <div class="grid gap-3 md:grid-cols-2">
+    <label class="block text-sm"><span class="mono-n text-xs text-stone-400">Genre</span>
+      <input id="nb-genre" class="mt-1 w-full border border-charcoal-line bg-ink px-2 py-1 text-stone-100" placeholder="mystery" />
+    </label>
+    <label class="block text-sm"><span class="mono-n text-xs text-stone-400">Setting</span>
+      <input id="nb-setting" class="mt-1 w-full border border-charcoal-line bg-ink px-2 py-1 text-stone-100" placeholder="a tidally-locked port city" />
+    </label>
+  </div>
+  <label class="block text-sm"><span class="mono-n text-xs text-stone-400">World rules (one per line)</span>
+    <textarea id="nb-rules" class="mono-n mt-1 min-h-[80px] w-full border border-charcoal-line bg-ink p-2 text-sm text-stone-100" placeholder="No faster-than-light travel&#10;The dead stay dead"></textarea>
+  </label>
+  <div>
+    <button class="border border-brand px-4 py-2 text-sm font-bold text-brand hover:bg-brand hover:text-ink" type="submit">Create bible</button>
+  </div>
+  <p id="nb-msg" class="text-sm text-stone-400"></p>
+</form>
+
+<h2 class="display-f mt-8 text-2xl text-stone-100">Reopen a series</h2>
+<form id="open-bible" class="mt-3 flex max-w-2xl gap-2">
+  <input id="ob-id" class="border border-charcoal-line bg-charcoal px-2 py-1 text-stone-100" placeholder="Story id" inputmode="numeric" />
+  <button class="border border-charcoal-line px-3 py-1 text-sm text-stone-200 hover:border-brand hover:text-brand" type="submit">Open bible</button>
+</form>
+
+<script>
+  import { apiPost } from '../lib/apiClient';
+  const msg = document.getElementById('nb-msg')!;
+  document.getElementById('new-bible')!.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    msg.textContent = 'Creating…';
+    const title = (document.getElementById('nb-title') as HTMLInputElement).value.trim();
+    const genre = (document.getElementById('nb-genre') as HTMLInputElement).value.trim();
+    const setting = (document.getElementById('nb-setting') as HTMLInputElement).value.trim();
+    const rules = (document.getElementById('nb-rules') as HTMLTextAreaElement).value
+      .split('\n').map((r) => r.trim()).filter(Boolean);
+    if (!title) { msg.textContent = 'Title is required.'; return; }
+    try {
+      const r = (await apiPost('/api/story/bible', { title, genre, setting, rules })) as { story_id: number };
+      window.location.href = `/bible?story=${r.story_id}`;
+    } catch (e) {
+      msg.textContent = e instanceof Error ? e.message : 'Create failed.';
+    }
+  });
+  document.getElementById('open-bible')!.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const id = (document.getElementById('ob-id') as HTMLInputElement).value.trim();
+    if (id) window.location.href = `/bible?story=${encodeURIComponent(id)}`;
+  });
+</script>
+</BaseLayout>

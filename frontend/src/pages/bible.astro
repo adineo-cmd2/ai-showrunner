@@ -1,0 +1,148 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CharacterGrid from "../components/bible/CharacterGrid";
+import HorizontalTimeline from "../components/bible/HorizontalTimeline";
+import ThreadKanban from "../components/bible/ThreadKanban";
+
+const story = Astro.url.searchParams.get('story') ?? '';
+const tab = Astro.url.searchParams.get('tab') ?? 'characters';
+const tabs = ['characters', 'locations', 'timeline', 'threads', 'rules'] as const;
+const active = (tabs as readonly string[]).includes(tab) ? tab : 'characters';
+---
+<BaseLayout title="Story bible">
+<h1 class="display-f mb-4 text-2xl text-stone-100">Story bible</h1>
+<form id="pick-story" class="mb-4 flex max-w-xl gap-2">
+  <input id="ps-id" class="border border-charcoal-line bg-charcoal px-2 py-1 text-stone-100" placeholder="Story id" inputmode="numeric" value={story} />
+  <button class="border border-charcoal-line px-3 py-1 text-sm text-stone-200 hover:border-brand hover:text-brand" type="submit">Load</button>
+</form>
+{!story && <p class="text-sm text-stone-400">Enter a story id to open its bible, or <a class="underline text-brand" href="/">create a new series</a>.</p>}
+{story && (
+  <nav class="mb-4 flex flex-wrap gap-2">
+    {tabs.map((t) => (
+      <a
+        href={`/bible?story=${encodeURIComponent(story)}&tab=${t}`}
+        class={`mono-n border px-2 py-1 text-xs ${t === active ? 'border-brand text-brand' : 'border-charcoal-line text-stone-400'}`}
+      >
+        {t.toUpperCase()}
+      </a>
+    ))}
+  </nav>
+  <>
+    {active === 'characters' && <CharacterGrid client:visible storyId={story} />}
+    {active === 'timeline' && <HorizontalTimeline client:visible storyId={story} />}
+    {active === 'threads' && <ThreadKanban client:visible storyId={story} />}
+    {active === 'locations' && (
+      <div>
+        <div id="loc-list" class="grid gap-3 md:grid-cols-3"><p class="text-sm text-stone-400">Loading locations…</p></div>
+        <p id="loc-err" class="mt-2 text-sm text-red-400"></p>
+      </div>
+    )}
+    {active === 'rules' && (
+      <div>
+        <h2 class="mono-n text-xs uppercase tracking-widest text-brand">World rules</h2>
+        <ul id="rule-list" class="mt-2 space-y-1"><li class="text-sm text-stone-400">Loading rules…</li></ul>
+        <h2 class="mono-n mt-6 text-xs uppercase tracking-widest text-brand">Pending changes</h2>
+        <p class="mt-1 text-xs text-stone-500">Nothing enters canon until you confirm it.</p>
+        <div id="pending-list" class="mt-2 space-y-2"><p class="text-sm text-stone-400">Loading pending changes…</p></div>
+        <p id="rule-err" class="mt-2 text-sm text-red-400"></p>
+      </div>
+    )}
+  </>
+)}
+<script>
+  document.getElementById('pick-story')?.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const input = document.getElementById('ps-id') as HTMLInputElement;
+    const id = input.value.trim();
+    if (id) window.location.href = `/bible?story=${encodeURIComponent(id)}`;
+  });
+</script>
+<script define:vars={{ story, active }}>
+  import { apiGet, apiPatch } from '../lib/apiClient';
+
+  async function loadLocations() {
+    const box = document.getElementById('loc-list');
+    const err = document.getElementById('loc-err');
+    if (!box || active !== 'locations') return;
+    try {
+      const b = await apiGet(`/api/story/bible/${story}/full`);
+      box.innerHTML = '';
+      if (b.locations.length === 0) {
+        box.innerHTML = '<p class="text-sm text-stone-400">No locations yet.</p>';
+        return;
+      }
+      for (const l of b.locations) {
+        const el = document.createElement('article');
+        el.className = 'border border-charcoal-line bg-charcoal p-4';
+        const name = document.createElement('p');
+        name.className = 'display-f font-bold text-stone-100';
+        name.textContent = l.name;
+        el.appendChild(name);
+        if (l.description) {
+          const d = document.createElement('p');
+          d.className = 'mt-2 text-sm text-stone-400';
+          d.textContent = l.description;
+          el.appendChild(d);
+        }
+        box.appendChild(el);
+      }
+    } catch (e) {
+      if (err) err.textContent = e instanceof Error ? e.message : 'Failed to load locations.';
+    }
+  }
+
+  async function loadRules() {
+    const rules = document.getElementById('rule-list');
+    const pending = document.getElementById('pending-list');
+    const err = document.getElementById('rule-err');
+    if (!rules || !pending || active !== 'rules') return;
+    try {
+      const b = await apiGet(`/api/story/bible/${story}/full`);
+      rules.innerHTML = '';
+      const list = b.story.setting_rules ?? [];
+      if (list.length === 0) rules.innerHTML = '<li class="text-sm text-stone-400">No world rules set.</li>';
+      for (const r of list) {
+        const li = document.createElement('li');
+        li.className = 'border border-charcoal-line bg-charcoal p-2 text-sm text-stone-200';
+        li.textContent = r;
+        rules.appendChild(li);
+      }
+      pending.innerHTML = '';
+      if (b.pending_changes.length === 0) {
+        pending.innerHTML = '<p class="text-sm text-stone-400">No pending changes.</p>';
+        return;
+      }
+      for (const p of b.pending_changes) {
+        const row = document.createElement('div');
+        row.className = 'flex flex-wrap items-center gap-2 border border-charcoal-line bg-charcoal p-3';
+        const label = document.createElement('span');
+        label.className = 'mono-n text-xs text-stone-200';
+        label.textContent = `#${p.id} ${p.action} ${JSON.stringify(p.payload)}`;
+        const ok = document.createElement('button');
+        ok.className = 'border border-brand px-2 py-1 text-xs text-brand';
+        ok.textContent = 'Confirm';
+        ok.onclick = async () => {
+          await apiPatch(`/api/story/changes/${p.id}`, { decision: 'confirm' });
+          void loadRules();
+        };
+        const no = document.createElement('button');
+        no.className = 'border border-charcoal-line px-2 py-1 text-xs text-stone-400';
+        no.textContent = 'Reject';
+        no.onclick = async () => {
+          await apiPatch(`/api/story/changes/${p.id}`, { decision: 'reject' });
+          void loadRules();
+        };
+        row.append(label, ok, no);
+        pending.appendChild(row);
+      }
+    } catch (e) {
+      if (err) err.textContent = e instanceof Error ? e.message : 'Failed to load rules.';
+    }
+  }
+
+  if (story) {
+    void loadLocations();
+    void loadRules();
+  }
+</script>
+</BaseLayout>

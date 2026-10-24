@@ -1,0 +1,35 @@
+---
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/bible', label: 'Bible' },
+  { href: '/episode-editor', label: 'Editor' },
+  { href: '/continuity', label: 'Continuity' },
+  { href: '/threads', label: 'Threads' },
+  { href: '/settings', label: 'Settings' },
+];
+---
+<nav class="border-b border-charcoal-line bg-charcoal">
+  <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+    <a href="/" class="display-f text-lg font-bold text-brand">AI Showrunner</a>
+    <ul class="flex flex-wrap gap-4">
+      {links.map((l) => (
+        <li>
+          <a href={l.href} data-navlink={l.href} class="text-sm text-stone-300 hover:text-brand">{l.label}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+<script>
+  // Preserve ?story= across nav when present. Runs in the browser only.
+  const params = new URLSearchParams(window.location.search);
+  const story = params.get('story');
+  if (story) {
+    document.querySelectorAll('[data-navlink]').forEach((a) => {
+      const el = a as HTMLAnchorElement;
+      const target = el.getAttribute('data-navlink') || '/';
+      if (target === '/') return;
+      el.href = `${target}?story=${encodeURIComponent(story)}`;
+    });
+  }
+</script>
