@@ -25,8 +25,8 @@ const fullTitle = `${title} · AI Showrunner`;
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Crect%20width%3D%27100%27%20height%3D%27100%27%20rx%3D%2722%27%20fill%3D%27%230b0908%27%2F%3E%3Ctext%20x%3D%2750%27%20y%3D%2758%27%20font-size%3D%2752%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8E%AC%3C%2Ftext%3E%3C%2Fsvg%3E" />
-    <meta name="theme-color" content="#0b0908" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Crect%20width%3D%27100%27%20height%3D%27100%27%20fill%3D%27%23efe6d4%27%2F%3E%3Cpath%20d%3D%27M26%2014h48v72H26z%27%20fill%3D%27%23fbf7ec%27%20stroke%3D%27%231b1913%27%20stroke-width%3D%275%27%2F%3E%3Cpath%20d%3D%27M36%2032h28M36%2044h28M36%2056h18%27%20stroke%3D%27%231b1913%27%20stroke-width%3D%274%27%2F%3E%3Cpath%20d%3D%27M36%2070h28%27%20stroke%3D%27%23b23a2f%27%20stroke-width%3D%276%27%2F%3E%3C%2Fsvg%3E" />
+    <meta name="theme-color" content="#efe6d4" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="AI Showrunner" />
     <meta property="og:title" content={fullTitle} />
@@ -35,12 +35,12 @@ const fullTitle = `${title} · AI Showrunner`;
     <meta name="twitter:card" content="summary" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body class="min-h-screen">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-[var(--accent)] focus:px-4 focus:py-2 focus:text-[var(--accent-ink)]"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-[var(--accent)] focus:px-4 focus:py-2 focus:text-[var(--accent-ink)]"
     >
       Skip to content
     </a>
@@ -50,7 +50,6 @@ const fullTitle = `${title} · AI Showrunner`;
     </main>
     <Footer />
     <script>
-      // Scroll-reveal: fade sections in as they enter the viewport.
       const els = document.querySelectorAll('.reveal');
       if ('IntersectionObserver' in window) {
         const io = new IntersectionObserver(

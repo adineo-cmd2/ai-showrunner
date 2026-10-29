@@ -13,6 +13,7 @@ const base = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
 ---
 <BaseLayout title="Story bible">
 <h1 class="page-title">Story bible</h1>
+<div id="bible-state" hidden data-story={story} data-active={active}></div>
 <form id="pick-story" class="mb-4 flex max-w-xl gap-2">
   <input id="ps-id" class="border border-charcoal-line bg-charcoal px-2 py-1 text-stone-100" placeholder="Story id" inputmode="numeric" value={story} />
   <button class="border border-charcoal-line px-3 py-1 text-sm text-stone-200 hover:border-brand hover:text-brand" type="submit">Load</button>
@@ -60,8 +61,12 @@ const base = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
     if (id) window.location.href = `${BASE}/bible?story=${encodeURIComponent(id)}`;
   });
 </script>
-<script define:vars={{ story, active }}>
+<script>
   import { apiGet, apiPatch } from '../lib/apiClient';
+
+  const state = document.getElementById('bible-state');
+  const story = state?.dataset.story ?? '';
+  const active = state?.dataset.active ?? '';
 
   async function loadLocations() {
     const box = document.getElementById('loc-list');

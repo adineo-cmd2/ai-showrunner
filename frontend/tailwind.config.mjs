@@ -4,34 +4,34 @@ export default {
   theme: {
     extend: {
       colors: {
-        "ink": "#0b0908",
+        "ink": "#fbf7ec",
         "charcoal": {
-                "DEFAULT": "#191512",
-                "soft": "#292524",
-                "line": "#44403c"
+          "DEFAULT": "#fbf7ec",
+          "soft": "#f3ecdc",
+          "line": "#c9b99b"
         },
         "brand": {
-                "DEFAULT": "#f59e0b",
-                "dim": "#b45309"
+          "DEFAULT": "#b23a2f",
+          "dim": "#8e2b22"
+        },
+        "stone": {
+          "100": "#1b1913",
+          "200": "#332f26",
+          "300": "#4a4437",
+          "400": "#6c6352",
+          "500": "#8b806c"
+        },
+        "red": {
+          "400": "#a32f27",
+          "500": "#b23a2f",
+          "700": "#7c221c"
         }
-},
+      },
       fontFamily: {
-        "display": [
-                "'Archivo'",
-                "system-ui",
-                "sans-serif"
-        ],
-        "body": [
-                "'Inter'",
-                "system-ui",
-                "sans-serif"
-        ],
-        "mono": [
-                "'JetBrains Mono'",
-                "ui-monospace",
-                "monospace"
-        ]
-},
+        "display": ["'Fraunces'", "Georgia", "serif"],
+        "body": ["'Public Sans'", "system-ui", "sans-serif"],
+        "mono": ["'Courier Prime'", "'Courier New'", "monospace"]
+      },
     },
   },
   plugins: [],
